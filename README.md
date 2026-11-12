@@ -1,7 +1,8 @@
 ## 👥 Project Team
 
 - **Ayush Agnihotri** — Hardware and Backend
-- **Shaury Sharma** — software and Frontend https://www.linkedin.com/in/shaury-sharma-056642446/
+- **Shaury Sharma** — software and Frontend 
+  linkdin profile - https://www.linkedin.com/in/shaury-sharma-056642446/
 
 ### Repository
 This repository contains the HelioCore project firmware, dashboard, and documentation.# HelioCore SatHealth — ESP32 Environmental, Fire/Gas Warning & MPU6500 Dashboard
