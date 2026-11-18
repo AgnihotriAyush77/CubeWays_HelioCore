@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1378d4">
+  <meta name="description" content="SkyQuest by CubeViz is a hands-on weather balloon STEM learning kit. Build a sensor cube, explore the atmosphere, collect data and discover how weather science works.">
+  <title>SkyQuest by CubeViz | Explore the Sky</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#102b59; --blue:#1479d4; --deep:#0754a5; --sky:#dff4ff;
+      --cyan:#55d7e5; --yellow:#ffcf4b; --coral:#ff806e; --purple:#8c70ed;
+      --green:#44c6a0; --paper:#fffdf7; --muted:#5e7393; --line:#dceafa;
+      --shadow:0 18px 45px rgba(21,78,139,.13); --radius:28px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Nunito,system-ui,sans-serif;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,253,247,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(20,121,212,.1)}
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-family:Fredoka,sans-serif;font-weight:700;font-size:25px;letter-spacing:-.5px}
+    .brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#51d9e6,#1986e3);display:grid;place-items:center;box-shadow:0 7px 16px #1479d433}
+    .brand-mark svg{width:30px;height:30px}
+    .brand small{display:block;font:800 9px Nunito,sans-serif;letter-spacing:1.6px;color:#6f83a2;margin-top:-3px}
+    .nav-links{display:flex;gap:28px;align-items:center;font-size:14px;font-weight:900;color:#526987}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:999px;padding:13px 21px;background:var(--yellow);color:#17325e;font-weight:1000;box-shadow:0 7px 0 #e5ad28;transition:transform .18s,box-shadow .18s;cursor:pointer}
+    .nav-cta:hover,.btn:hover{transform:translateY(-3px);box-shadow:0 10px 0 #e5ad28}
+    .menu-btn{display:none;border:0;background:#e8f6ff;border-radius:12px;padding:10px;color:var(--ink);font-size:22px}
+    .hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#0874d1 0%,#229ce2 54%,#66d8e9 100%);color:white;padding:68px 0 82px}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.09);z-index:-1}
+    .hero:before{width:540px;height:540px;right:-150px;top:-220px}
+    .hero:after{width:320px;height:320px;left:-170px;bottom:-180px}
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;align-items:center;gap:38px}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.15);border-radius:999px;padding:9px 15px;font-size:12px;font-weight:1000;letter-spacing:1.3px;text-transform:uppercase}
+    h1,h2,h3,p{margin-top:0}
+    h1{font:700 clamp(46px,6vw,76px)/.99 Fredoka,sans-serif;letter-spacing:-1.8px;margin:23px 0 20px;max-width:620px}
+    h1 .sun-word{color:#ffdc62;text-shadow:0 4px 0 rgba(16,43,89,.15)}
+    .hero-copy{font-size:18px;line-height:1.7;color:#e8f7ff;max-width:570px;font-weight:700}
+    .hero-actions{display:flex;gap:15px;flex-wrap:wrap;margin:28px 0 25px}
+    .btn.secondary{background:white;color:var(--blue);box-shadow:0 7px 0 #c4e8fb}
+    .btn.secondary:hover{box-shadow:0 10px 0 #c4e8fb}
+    .trust-line{display:flex;align-items:center;gap:10px;color:#e1f6ff;font-size:13px;font-weight:900}
+    .trust-line span{display:inline-grid;place-items:center;width:25px;height:25px;background:#ffdb65;color:#24446f;border-radius:50%}
+    .hero-art{position:relative;min-height:455px;display:grid;place-items:center}
+    .art-cloud{position:absolute;background:#fff;border-radius:80px;height:42px;width:135px;opacity:.9;filter:drop-shadow(0 8px 0 rgba(13,85,155,.08))}
+    .art-cloud:before,.art-cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}
+    .art-cloud:before{width:60px;height:60px;left:23px;top:-28px}
+    .art-cloud:after{width:78px;height:78px;right:18px;top:-42px}
+    .cloud-a{top:55px;left:8px;transform:scale(.8)}
+    .cloud-b{right:-4px;bottom:66px;transform:scale(1.02)}
+    .star{position:absolute;color:#ffdf65;font-size:30px;text-shadow:0 3px 0 #e6a932;animation:twinkle 2.6s ease-in-out infinite}
+    .star.s1{top:24px;right:77px}.star.s2{bottom:86px;left:36px;animation-delay:.7s}.star.s3{top:160px;left:0;animation-delay:1.3s}
+    .balloon-scene{position:relative;width:min(100%,480px);height:430px;animation:float 4.8s ease-in-out infinite}
+    .balloon{position:absolute;width:230px;height:270px;left:50%;top:4px;transform:translateX(-50%);border-radius:48% 48% 45% 45%;background:radial-gradient(circle at 31% 24%,#fff8e7 0 6%,#ffd69a 23%,#ff9d85 69%,#ed6b65 100%);box-shadow:inset -19px -12px 25px rgba(172,59,83,.16),inset 13px 8px 24px rgba(255,255,255,.75),0 23px 35px rgba(6,61,126,.17)}
+    .balloon:before{content:"";position:absolute;width:62px;height:140px;left:29px;top:40px;border-radius:50%;background:rgba(255,255,255,.28);transform:rotate(22deg);filter:blur(2px)}
+    .balloon:after{content:"";position:absolute;bottom:-13px;left:calc(50% - 12px);border-left:12px solid transparent;border-right:12px solid transparent;border-top:19px solid #e98570}
+    .string{position:absolute;top:255px;width:2px;height:108px;background:#ffe5ae;left:50%;transform-origin:top}
+    .string.one{transform:rotate(-17deg);margin-left:-24px}.string.two{transform:rotate(17deg);margin-left:24px}.string.mid{height:115px;opacity:.85}
+    .knot{position:absolute;top:268px;left:calc(50% - 9px);width:18px;height:17px;border-radius:40% 40% 60% 60%;background:#f3bd64}
+    .sensor-cube{position:absolute;top:350px;left:50%;width:132px;height:82px;transform:translateX(-50%) rotate(-7deg);filter:drop-shadow(0 16px 10px rgba(5,54,111,.27))}
+    .cube-front{position:absolute;inset:0;background:linear-gradient(140deg,#f8fdff,#b7e9ff);border:4px solid #174c87;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#123864;font:700 16px Fredoka,sans-serif}
+    .cube-side{position:absolute;right:-17px;top:9px;width:19px;height:67px;background:#35a5d6;border:3px solid #174c87;transform:skewY(-25deg);border-radius:0 7px 7px 0}
+    .cube-top{position:absolute;left:8px;right:-9px;top:-13px;height:17px;background:#ffe17c;border:3px solid #174c87;transform:skewX(-45deg);border-radius:5px}
+    .cube-dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#ff765f;top:9px;right:10px;box-shadow:-18px 0 #44c9a6,-36px 0 #5ca5f5}
+    .data-chip{position:absolute;padding:11px 15px;background:white;color:#18416f;border-radius:16px;box-shadow:0 12px 26px rgba(8,69,128,.2);font-size:12px;font-weight:1000}
+    .data-chip b{display:block;color:#1379d1;font-size:16px;font-family:Fredoka,sans-serif}
+    .chip-one{top:185px;right:0;transform:rotate(4deg)}.chip-two{bottom:12px;left:0;transform:rotate(-5deg)}
+    .floaty{position:absolute;background:#ffdb67;color:#25456d;border-radius:14px;padding:8px 11px;font-size:12px;font-weight:1000;box-shadow:0 5px 0 #e7b239}
+    .floaty.f1{top:12px;left:7%;transform:rotate(-8deg)}.floaty.f2{right:7%;bottom:95px;transform:rotate(7deg)}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+    @keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.25) rotate(15deg)}}
+    .ticker{background:#ffdb68;color:#21436c;padding:13px 0;font-size:13px;font-weight:1000;letter-spacing:.4px}
+    .ticker-inner{display:flex;justify-content:center;gap:33px;flex-wrap:wrap}
+    .ticker b{white-space:nowrap}
+    .section{padding:86px 0}
+    .section-head{text-align:center;max-width:730px;margin:0 auto 42px}
+    .kicker{color:var(--blue);font-size:12px;letter-spacing:1.7px;text-transform:uppercase;font-weight:1000}
+    h2{font:700 clamp(34px,4vw,48px)/1.06 Fredoka,sans-serif;letter-spacing:-.6px;margin:12px 0 14px}
+    .section-head p{font-size:17px;line-height:1.7;color:var(--muted);font-weight:700}
+    .what-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+    .story-card{background:#e8f7ff;border-radius:var(--radius);padding:32px;position:relative;overflow:hidden}
+    .story-card:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#c9edff;right:-60px;bottom:-80px}
+    .story-card h3{font:600 27px Fredoka,sans-serif;margin-bottom:12px}
+    .story-card p{position:relative;z-index:1;color:#536b89;line-height:1.75;font-weight:700}
+    .story-stamp{display:inline-block;background:#fff;border-radius:14px;padding:10px 14px;font-size:12px;color:#1475c6;font-weight:1000;transform:rotate(-2deg);margin-bottom:17px}
+    .fact-list{display:grid;gap:14px}
+    .fact{display:flex;gap:15px;align-items:flex-start;padding:17px 19px;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 22px rgba(30,87,143,.06)}
+    .fact-icon{flex:0 0 43px;height:43px;border-radius:14px;display:grid;place-items:center;font-size:22px}
+    .fact h3{font:600 18px Fredoka,sans-serif;margin:1px 0 4px}
+    .fact p{margin:0;color:var(--muted);font-weight:700;font-size:14px;line-height:1.55}
+    .sensors{background:#f0f9ff}
+    .sensor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    .sensor-card{background:#fff;border-radius:23px;padding:25px 21px;border:1px solid #e0eff9;box-shadow:0 10px 26px rgba(22,91,150,.06);transition:transform .2s}
+    .sensor-card:hover{transform:translateY(-7px)}
+    .sensor-emoji{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;font-size:27px;margin-bottom:18px}
+    .sensor-card h3{font:600 19px Fredoka,sans-serif;margin-bottom:8px}
+    .sensor-card p{font-size:14px;line-height:1.65;color:var(--muted);font-weight:700;margin:0}
+    .tag{display:inline-block;margin-top:15px;padding:6px 10px;background:#eff7ff;color:#3975ae;border-radius:99px;font-size:10px;font-weight:1000;letter-spacing:.7px;text-transform:uppercase}
+    .demo{background:linear-gradient(135deg,#123c78,#126fc0);color:#fff;position:relative;overflow:hidden}
+    .demo:before{content:"";position:absolute;width:520px;height:520px;right:-200px;top:-220px;border-radius:50%;background:rgba(255,255,255,.06)}
+    .demo .section-head p{color:#d6edff}
+    .demo .kicker{color:#ffdd72}
+    .demo-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:28px;align-items:stretch;position:relative}
+    .demo-copy{padding:24px 12px}
+    .demo-copy h3{font:600 29px Fredoka,sans-serif;margin:10px 0 13px}
+    .demo-copy p{color:#d7eaff;line-height:1.7;font-weight:700}
+    .demo-note{font-size:12px;color:#a9d2f4;font-weight:800;margin-top:20px}
+    .dashboard{background:#faffff;color:var(--ink);border-radius:25px;padding:23px;box-shadow:0 18px 50px rgba(2,27,66,.2)}
+    .dash-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:17px}
+    .dash-title{font:600 19px Fredoka,sans-serif}
+    .demo-badge{background:#fff0c4;color:#855d0a;padding:6px 10px;border-radius:50px;font-size:10px;font-weight:1000;letter-spacing:.5px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+    .metric{border-radius:16px;padding:15px;background:#eef8ff}
+    .metric small{display:block;font-size:11px;font-weight:900;color:#647d9d}
+    .metric strong{display:block;font:600 27px Fredoka,sans-serif;margin:6px 0 2px}
+    .metric em{font-style:normal;font-size:10px;font-weight:800;color:#7890aa}
+    .chart-wrap{margin-top:15px;background:#f4f9ff;border-radius:17px;padding:14px}
+    .chart-label{font-size:11px;font-weight:1000;color:#607895;margin-bottom:6px}
+    .chart-wrap svg{width:100%;height:110px;overflow:visible}
+    .chart-gridline{stroke:#d9eafa;stroke-width:1;stroke-dasharray:4 5}
+    .chart-line{fill:none;stroke:#2085d6;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+    .chart-area{fill:url(#chartFill);opacity:.55}
+    .dash-bottom{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;font-size:11px;color:#7186a1;font-weight:800}
+    .dash-bottom button{border:0;background:#1479d4;color:#fff;border-radius:999px;padding:10px 14px;font-weight:1000;cursor:pointer}
+    .dash-bottom button:hover{background:#0754a5}
+    .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .step{position:relative;background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:0 10px 25px rgba(35,86,130,.05)}
+    .step-number{width:42px;height:42px;border-radius:15px;background:var(--yellow);display:grid;place-items:center;font:700 20px Fredoka,sans-serif;color:#21406b;margin-bottom:18px;box-shadow:0 5px 0 #e7b339}
+    .step h3{font:600 22px Fredoka,sans-serif;margin-bottom:8px}
+    .step p{font-size:14px;line-height:1.7;color:var(--muted);font-weight:700;margin:0}
+    .step-arrow{position:absolute;right:-17px;top:43px;color:#6abddf;font-size:26px;z-index:2}
+    .learn{background:#fff3d1}
+    .learn-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:35px}
+    .learn-copy p{font-weight:700;color:#6a7180;line-height:1.75}
+    .learn-points{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+    .learn-point{background:#fff;border-radius:15px;padding:13px 15px;font-weight:900;font-size:13px;color:#455d7b}
+    .teacher-card{background:#fff;border-radius:26px;padding:27px;box-shadow:0 13px 30px rgba(147,103,18,.1);transform:rotate(1.2deg)}
+    .teacher-card .mini-label{display:inline-block;background:#e2f7ff;color:#1477bc;border-radius:99px;padding:7px 11px;font-size:10px;font-weight:1000;letter-spacing:1px}
+    .teacher-card h3{font:600 25px Fredoka,sans-serif;margin:16px 0 10px}
+    .teacher-card p{color:var(--muted);line-height:1.7;font-weight:700;font-size:14px}
+    .safety-note{margin-top:17px;background:#eaf7ff;border-left:4px solid #2c9bd8;border-radius:12px;padding:12px 14px;color:#456887;font-size:12px;line-height:1.6;font-weight:800}
+    .faq-list{max-width:820px;margin:auto;display:grid;gap:12px}
+    details{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px 21px;box-shadow:0 5px 16px rgba(27,76,123,.04)}
+    summary{cursor:pointer;list-style:none;font:600 18px Fredoka,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    summary::-webkit-details-marker{display:none}
+    summary:after{content:"+";font:600 24px Fredoka,sans-serif;color:var(--blue)}
+    details[open] summary:after{content:"−"}
+    details p{margin:13px 0 0;color:var(--muted);line-height:1.7;font-weight:700;font-size:14px}
+    .final-cta{padding:72px 0;background:linear-gradient(135deg,#1a8bd9,#57cfe0);color:#fff;text-align:center;position:relative;overflow:hidden}
+    .final-cta h2{max-width:720px;margin:12px auto}
+    .final-cta p{color:#e6faff;font-size:16px;font-weight:800;line-height:1.6;max-width:650px;margin:0 auto 25px}
+    .footer{background:#10315e;color:#d8eaff;padding:35px 0}
+    .footer-row{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .footer-brand{font:600 22px Fredoka,sans-serif;color:white}
+    .footer-brand span{display:block;font:800 10px Nunito,sans-serif;letter-spacing:1.4px;color:#9dc7e9;margin-top:3px}
+    .footer p{margin:0;font-size:12px;color:#a9c4e0;font-weight:700}
+    .backtop{color:#fff;font-size:13px;font-weight:900}
+    @media(max-width:900px){
+      .nav-links{gap:16px}.hero-grid{grid-template-columns:1fr}.hero-art{min-height:430px;max-width:570px;margin:auto;width:100%}
+      .hero-copy{max-width:700px}.sensor-grid{grid-template-columns:repeat(2,1fr)}.what-grid,.demo-grid,.learn-grid{grid-template-columns:1fr}
+      .demo-copy{padding:0}.step-arrow{display:none}
+    }
+    @media(max-width:640px){
+      .wrap{width:min(100% - 28px,1160px)}.nav{height:66px}.brand{font-size:22px}.brand-mark{width:38px;height:38px}
+      .menu-btn{display:block}.nav-cta{display:none}
+      .nav-links{display:none;position:absolute;left:14px;right:14px;top:70px;padding:18px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);flex-direction:column;align-items:flex-start}
+      .nav-links.open{display:flex}
+      .hero{padding:48px 0 55px}.hero-grid{gap:8px}h1{font-size:52px}.hero-copy{font-size:16px}
+      .hero-art{min-height:375px;transform:scale(.9);margin:-5px auto -8px}.balloon-scene{transform:scale(.86)}
+      .ticker-inner{gap:12px 20px}.section{padding:65px 0}.sensor-grid{grid-template-columns:1fr 1fr;gap:12px}
+      .sensor-card{padding:19px 15px}.sensor-card h3{font-size:17px}
+      .steps-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr 1fr;gap:7px}.metric{padding:11px 8px}.metric strong{font-size:22px}
+      .dashboard{padding:15px}.dash-bottom{align-items:flex-start;flex-direction:column}
+      .learn-points{grid-template-columns:1fr}.footer-row{align-items:flex-start;flex-direction:column}
+    }
+    @media(max-width:390px){h1{font-size:46px}.hero-art{margin-left:-20px;margin-right:-20px;width:calc(100% + 40px);transform:scale(.82)}.sensor-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.metric strong{font-size:24px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="SkyQuest home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M20 4c-7 0-12 6-12 13 0 7 5 12 12 12s12-5 12-12C32 10 27 4 20 4Z" fill="#fff4c8" stroke="#174b81" stroke-width="2"/><path d="M20 29v6m-5-1 5 3 5-3" stroke="#174b81" stroke-width="2" stroke-linecap="round"/><path d="M15 13c2-3 6-4 9-2" stroke="#fff" stroke-width="2.3" stroke-linecap="round"/></svg>
+        </span>
+        <span>SkyQuest<small>BY CUBEVIZ</small></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#mission">The mission</a><a href="#sensors">What's inside</a><a href="#demo">Try the demo</a><a href="#learning">For schools</a>
+      </nav>
+      <a class="nav-cta" href="#demo">Explore the data <span>↗</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow"><span>☀</span> A hands-on weather balloon STEM kit</div>
+          <h1>Chase the sky.<br><span class="sun-word">Discover</span> the weather.</h1>
+          <p class="hero-copy">Meet SkyQuest — a classroom adventure where students build a sensor-powered cube, lift it with a helium balloon and explore the science happening all around us.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#mission">Start exploring <span>➜</span></a>
+            <a class="btn secondary" href="#demo">Try the data demo <span>⌁</span></a>
+          </div>
+          <div class="trust-line"><span>★</span> Made for curious learners up to Class 10</div>
+        </div>
+        <div class="hero-art" aria-label="Illustration of a helium balloon lifting a small sensor cube">
+          <div class="art-cloud cloud-a"></div><div class="art-cloud cloud-b"></div>
+          <div class="star s1">✦</div><div class="star s2">✦</div><div class="star s3">✧</div>
+          <div class="floaty f1">LET'S EXPLORE!</div><div class="floaty f2">SCIENCE IN THE SKY</div>
+          <div class="balloon-scene">
+            <div class="balloon"></div>
+            <div class="string one"></div><div class="string two"></div><div class="string mid"></div><div class="knot"></div>
+            <div class="sensor-cube"><div class="cube-top"></div><div class="cube-front">SkyQuest<div class="cube-dot"></div></div><div class="cube-side"></div></div>
+            <div class="data-chip chip-one">SENSOR STATUS <b>Curiosity: ON!</b></div>
+            <div class="data-chip chip-two">POWERED BY <b>ESP32 + Sensors</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker"><div class="wrap ticker-inner"><b>☁ BUILD</b><b>🎈 LIFT</b><b>📡 MEASURE</b><b>📊 DISCOVER</b><b>★ LEARN BY DOING</b></div></div>
+
+    <section class="section" id="mission">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">A little cube. A big curiosity.</div>
+          <h2>What is SkyQuest?</h2>
+          <p>SkyQuest brings atmospheric science out of the textbook and into students' hands. It is a small, educational weather-observation project inspired by the way real weather balloons collect information from the atmosphere.</p>
+        </div>
+        <div class="what-grid">
+          <div class="story-card">
+            <span class="story-stamp">THE BIG IDEA ✨</span>
+            <h3>Take the classroom a little closer to the clouds.</h3>
+            <p>Students assemble a compact sensor cube around an ESP32 microcontroller. The cube is designed to be lifted by a helium balloon in a controlled, tethered demonstration. As it rises, its sensors can record changing environmental conditions. Back on the laptop, students can read the measurements, explore graphs and ask questions about the atmosphere.</p>
+            <p><strong>It is not a toy or a satellite.</strong> It is a guided science experiment that helps learners understand how sensing, coding and weather observation work together.</p>
+          </div>
+          <div class="fact-list">
+            <div class="fact"><div class="fact-icon" style="background:#fff0e9">🎈</div><div><h3>A balloon-borne sensor cube</h3><p>A helium balloon provides lift for a lightweight cube during a supervised, tethered classroom demonstration.</p></div></div>
+            <div class="fact"><div class="fact-icon" style="background:#e5f8ff">🧠</div><div><h3>Built around an ESP32</h3><p>A beginner-friendly microcontroller connects the sensors and makes the project a practical introduction to electronics and coding.</p></div></div>
+            <div class="fact"><div class="fact-icon" style="background:#f0eaff">💻</div><div><h3>Real readings. Visible patterns.</h3><p>Students bring the collected readings to a laptop over USB-C, then explore values, charts and simple weather concepts.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section sensors" id="sensors">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Meet the mini weather lab</div>
+          <h2>What's inside the cube?</h2>
+          <p>Each sensor gives students a new clue about the air around them. The exact component set can be adapted to the learning level and kit version.</p>
+        </div>
+        <div class="sensor-grid">
+          <article class="sensor-card"><div class="sensor-emoji" style="background:#fff0e7">🌡️</div><h3>Temperature</h3><p>Measure how warm or cool the surrounding air is and compare readings at different heights.</p><span class="tag">Feel the heat</span></article>
+          <article class="sensor-card"><div class="sensor-emoji" style="background:#e6f7ff">💧</div><h3>Humidity</h3><p>Explore the amount of water vapour in the air and learn why moisture matters for weather.</p><span class="tag">Read the moisture</span></article>
+          <article class="sensor-card"><div class="sensor-emoji" style="background:#f0eaff">🌀</div><h3>Air pressure & altitude</h3><p>Observe how air pressure changes with height and use it to discuss the atmosphere.</p><span class="tag">Look higher</span></article>
+          <article class="sensor-card"><div class="sensor-emoji" style="background:#e6fff5">🧭</div><h3>Motion & orientation</h3><p>Use an IMU sensor to learn how the cube tilts, turns and moves while it is being lifted.</p><span class="tag">Track the motion</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section demo" id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Your first weather mission</div>
+          <h2>Can you read the sky?</h2>
+          <p>Try this little dashboard to see how sensor values can become something we can understand. Press the button to generate a new set of sample readings.</p>
+        </div>
+        <div class="demo-grid">
+          <div class="demo-copy">
+            <div class="eyebrow">INTERACTIVE MINI LAB</div>
+            <h3>Data turns into discovery.</h3>
+            <p>In the project, the ESP32 gathers information from the sensors. Students can view the measurements on a laptop, compare readings and look for patterns.</p>
+            <p>What happens to temperature? Does pressure change? What could those changes tell us?</p>
+            <div class="demo-note">This on-page dashboard is a simulated learning example. It is not connected to a live SkyQuest device.</div>
+          </div>
+          <div class="dashboard">
+            <div class="dash-top"><div class="dash-title">☁ SkyQuest weather dashboard</div><span class="demo-badge">SAMPLE DATA</span></div>
+            <div class="metrics">
+              <div class="metric"><small>Temperature</small><strong id="tempValue">28.4°C</strong><em>Air temperature</em></div>
+              <div class="metric"><small>Humidity</small><strong id="humidityValue">62%</strong><em>Moisture in air</em></div>
+              <div class="metric"><small>Air pressure</small><strong id="pressureValue">1008 hPa</strong><em>Pressure reading</em></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-label">SAMPLE TEMPERATURE TREND</div>
+              <svg viewBox="0 0 520 110" role="img" aria-label="Illustrative sample temperature trend chart">
+                <defs><linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#45a8ed"/><stop offset="1" stop-color="#45a8ed" stop-opacity="0"/></linearGradient></defs>
+                <path class="chart-gridline" d="M0 22H520 M0 55H520 M0 88H520"/>
+                <path class="chart-area" id="chartArea" d="M0 76 L65 65 L130 70 L195 42 L260 49 L325 35 L390 44 L455 20 L520 29 L520 110 L0 110Z"/>
+                <path class="chart-line" id="chartLine" d="M0 76 L65 65 L130 70 L195 42 L260 49 L325 35 L390 44 L455 20 L520 29"/>
+              </svg>
+            </div>
+            <div class="dash-bottom"><span id="sampleStatus" aria-live="polite">Ready to explore sample readings</span><button id="sampleBtn" type="button">Generate sample readings ↻</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Three steps. So many discoveries.</div>
+          <h2>How does SkyQuest work?</h2>
+          <p>From a handful of components to a screen full of interesting data, every stage is part of the learning journey.</p>
+        </div>
+        <div class="steps-grid">
+          <article class="step"><div class="step-number">01</div><h3>Build the kit</h3><p>With a teacher's guidance, students assemble the cube, connect the ESP32 and sensors, and learn what each component does.</p><span class="step-arrow">➜</span></article>
+          <article class="step"><div class="step-number">02</div><h3>Lift & collect data</h3><p>In a controlled, tethered demonstration, a helium balloon lifts the sensor cube while it observes its surroundings.</p><span class="step-arrow">➜</span></article>
+          <article class="step"><div class="step-number">03</div><h3>Analyse & discover</h3><p>Students review readings on a laptop via USB-C, create graphs, compare conditions and explore the basics of weather patterns.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section learn" id="learning">
+      <div class="wrap learn-grid">
+        <div class="learn-copy">
+          <div class="kicker">Made for young explorers</div>
+          <h2>Big science, made hands-on.</h2>
+          <p>SkyQuest is being developed as a school-focused STEM kit for students up to Class 10. It is designed for teacher-guided activities that connect science concepts with practical electronics, coding and data interpretation.</p>
+          <div class="learn-points">
+            <div class="learn-point">🔧 Build and connect</div>
+            <div class="learn-point">💻 Learn basic coding</div>
+            <div class="learn-point">📈 Read and graph data</div>
+            <div class="learn-point">🌦️ Explore weather science</div>
+          </div>
+        </div>
+        <aside class="teacher-card">
+          <span class="mini-label">FOR SCHOOLS & EDUCATORS</span>
+          <h3>A guided learning experience — not just a finished gadget.</h3>
+          <p>The kit is intended to help teachers introduce sensors, microcontrollers, atmospheric observations and simple data analysis through a shared classroom project.</p>
+          <p>Students can ask questions, make observations, write code and explain what their measurements mean.</p>
+          <div class="safety-note"><strong>Safety first:</strong> Any balloon lift should be planned and supervised by adults, use a secure tether, stay within site permissions and local rules, and account for weather, payload and safe operating limits. SkyQuest is an educational prototype, not a certified meteorological instrument or an operational weather-forecasting service.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">Curious? We love questions.</div>
+          <h2>Quick questions, clear answers.</h2>
+        </div>
+        <div class="faq-list">
+          <details><summary>Is SkyQuest a real satellite?</summary><p>No. SkyQuest is an educational, balloon-borne sensor-cube concept inspired by atmospheric data collection. It is designed as a ground-built learning kit and a controlled, tethered demonstration — not a spacecraft.</p></details>
+          <details><summary>What will students learn?</summary><p>Students explore temperature, humidity, air pressure, motion, sensors, the ESP32, basic coding, data collection, graphs and the science of the atmosphere.</p></details>
+          <details><summary>Can SkyQuest forecast the weather?</summary><p>The kit can help students observe atmospheric conditions, visualize trends and discuss the fundamentals of weather forecasting. Its educational readings should not be treated as a reliable or official weather forecast.</p></details>
+          <details><summary>How do we view the collected data?</summary><p>The learning workflow is designed around reviewing sensor readings on a laptop through a USB-C connection to the ESP32. The exact logging and communication setup will depend on the final kit configuration.</p></details>
+          <details><summary>Who is the kit for?</summary><p>SkyQuest is being developed for school learning, especially teacher-guided STEM activities for students up to Class 10.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="wrap">
+        <div class="eyebrow">READY FOR TAKE-OFF?</div>
+        <h2>Look up. Ask why. Find out.</h2>
+        <p>With SkyQuest, the sky becomes a place to explore, experiment and understand. The next discovery could begin in your classroom.</p>
+        <a class="btn" href="#home">Back to the beginning ↑</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-row">
+      <div class="footer-brand">SkyQuest <span>A CUBEVIZ EDUCATIONAL STEM PROJECT</span></div>
+      <p>Explore the sky. Understand the science. Keep asking questions.</p>
+      <a class="backtop" href="#home">Back to top ↑</a>
+    </div>
+  </footer>
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    menuBtn.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+      menuBtn.textContent = open ? "×" : "☰";
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.textContent = "☰";
+    }));
+
+    const tempEl = document.getElementById("tempValue");
+    const humidityEl = document.getElementById("humidityValue");
+    const pressureEl = document.getElementById("pressureValue");
+    const statusEl = document.getElementById("sampleStatus");
+    const lineEl = document.getElementById("chartLine");
+    const areaEl = document.getElementById("chartArea");
+    const sampleBtn = document.getElementById("sampleBtn");
+    let sampleCount = 0;
+
+    function makeSample() {
+      sampleCount += 1;
+      const temperature = (24 + Math.random() * 12).toFixed(1);
+      const humidity = Math.round(42 + Math.random() * 43);
+      const pressure = Math.round(995 + Math.random() * 24);
+      tempEl.textContent = temperature + "°C";
+      humidityEl.textContent = humidity + "%";
+      pressureEl.textContent = pressure + " hPa";
+
+      const points = Array.from({length:9}, (_, i) => {
+        const x = i * 65;
+        const y = 18 + Math.random() * 70;
+        return [x, y];
+      });
+      const path = points.map((p, i) => (i ? "L" : "M") + p[0] + " " + p[1]).join(" ");
+      lineEl.setAttribute("d", path);
+      areaEl.setAttribute("d", path + " L520 110 L0 110Z");
+      statusEl.textContent = "Sample set " + sampleCount + " generated · for learning only";
+      sampleBtn.textContent = "Try another reading ↻";
+    }
+    sampleBtn.addEventListener("click", makeSample);
+  </script>
+</body>
+</html>
