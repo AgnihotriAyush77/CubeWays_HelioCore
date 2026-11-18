@@ -161,6 +161,12 @@
     .footer-brand{font:600 22px Fredoka,sans-serif;color:white}
     .footer-brand span{display:block;font:800 10px Nunito,sans-serif;letter-spacing:1.4px;color:#9dc7e9;margin-top:3px}
     .copyright{margin-top:24px;padding-top:16px;border-top:1px solid rgba(216,234,255,.18);text-align:center;color:#9dc7e9;font-size:12px;font-weight:800;letter-spacing:.4px}
+    .contact-block{display:flex;flex-direction:column;align-items:center;gap:12px;margin:24px auto 25px}
+    .contact-label{margin:0;color:#e6faff;font-size:14px;font-weight:900}
+    .contact-email{color:#fff;font-size:clamp(18px,2vw,22px);font-weight:1000;text-decoration:underline;text-underline-offset:5px;overflow-wrap:anywhere}
+    .contact-email:hover{color:#ffdf72}
+    .contact-btn{background:#fff;color:#1479d4;box-shadow:0 7px 0 #c9e9fb}
+    .contact-btn:hover{box-shadow:0 10px 0 #c9e9fb}
     .footer p{margin:0;font-size:12px;color:#a9c4e0;font-weight:700}
     .backtop{color:#fff;font-size:13px;font-weight:900}
     @media(max-width:900px){
@@ -195,9 +201,9 @@
         <span>SkyQuest<small>BY CUBE WAYS</small></span>
       </a>
       <nav class="nav-links" id="navLinks" aria-label="Main navigation">
-        <a href="#mission">The mission</a><a href="#sensors">What's inside</a><a href="#demo">Try the demo</a><a href="#learning">For schools</a>
+        <a href="#mission">The mission</a><a href="#sensors">What's inside</a><a href="#demo">Try the demo</a><a href="#learning">For schools</a><a href="#contact">Contact</a>
       </nav>
-      <a class="nav-cta" href="#demo">Explore the data <span>↗</span></a>
+      <a class="nav-cta" href="#contact">Contact <span>✉</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
     </div>
   </header>
@@ -362,11 +368,16 @@
       </div>
     </section>
 
-    <section class="final-cta">
+    <section class="final-cta" id="contact">
       <div class="wrap">
         <div class="eyebrow">READY FOR TAKE-OFF?</div>
         <h2>Look up. Ask why. Find out.</h2>
         <p>With SkyQuest, the sky becomes a place to explore, experiment and understand. The next discovery could begin in your classroom.</p>
+        <div class="contact-block">
+          <p class="contact-label">Questions or interested in registering for a demo kit?</p>
+          <a class="contact-email" href="mailto:agnihotriayush77@gmail.com?subject=SkyQuest%20Demo%20Kit%20Enquiry%20or%20Registration&body=Hello%20Cube%20Ways%20Team%2C%0A%0AI%20would%20like%20to%20know%20more%20about%20SkyQuest%20and%20I%20am%20interested%20in%20the%20demo%20kit.%0A%0AName%3A%0ASchool%20or%20Organization%3A%0ACity%3A%0APhone%3A%0A%0AThank%20you.">agnihotriayush77@gmail.com</a>
+          <a class="btn contact-btn" href="mailto:agnihotriayush77@gmail.com?subject=SkyQuest%20Demo%20Kit%20Enquiry%20or%20Registration&body=Hello%20Cube%20Ways%20Team%2C%0A%0AI%20would%20like%20to%20know%20more%20about%20SkyQuest%20and%20I%20am%20interested%20in%20the%20demo%20kit.%0A%0AName%3A%0ASchool%20or%20Organization%3A%0ACity%3A%0APhone%3A%0A%0AThank%20you.">Email us to get started <span>↗</span></a>
+        </div>
         <a class="btn" href="#home">Back to the beginning ↑</a>
       </div>
     </section>
